@@ -1,0 +1,58 @@
+<head>
+  <title>The Write Stuff</title>
+</head>
+ 
+<body>
+  <div class="container">
+    <header>
+      <h1>Word Count List ({{incompleteCount}})</h1>
+
+      <label class="hide-completed">
+        <input type="checkbox" checked="{{hideCompleted}}" />
+        Hide Completed Tasks
+      </label>
+
+      {{> loginButtons}}
+
+      {{#if currentUser}}
+        <form class="new-count">
+		  <input type="date" name="date" placeholder="YYYY-MM-DD" />
+          <input type="number" name="num" placeholder="1000" />
+		  <input type="submit" value="Save count for date" />
+        </form>
+      {{/if}}
+    </header>
+	
+	{{> charts}}
+ 
+    <ul>
+      {{#each counts}}
+        {{> count}}
+      {{/each}}
+    </ul>
+  </div>
+</body>
+
+<template name="charts">
+    <canvas id="myChart"></canvas>
+</template>
+  
+<template name="count">
+  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+    <button class="delete">&times;</button>
+ 
+    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+ 
+	{{#if isOwner}}
+      <button class="toggle-private">
+        {{#if private}}
+          Private
+        {{else}}
+          Public
+        {{/if}}
+      </button>
+	{{/if}}
+ 
+    <span class="text"><strong>{{username}}</strong> wrote {{count}} words on {{formatDate countedAt}}</span>
+  </li>
+</template>
